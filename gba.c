@@ -67,6 +67,17 @@ void drawImageDMA(int row, int col, int width, int height, const u16 *image) {
 
 }
 
+// my own function
+// fills in section of background that image used to be at
+void undrawImageDMA(int startRow, int startCol, int endRow, int endCol, const u16 *bgImage) {
+  for (int i = startRow; i <= endRow; i++) {
+    DMA[3].src = &bgImage[OFFSET(i, startCol, WIDTH)];
+    DMA[3].dst = &videoBuffer[OFFSET(i, startCol, WIDTH)];
+    DMA[3].cnt = (endCol - startCol + 1) | DMA_ON | DMA_SOURCE_INCREMENT | DMA_DESTINATION_INCREMENT;
+  }
+
+}
+
 void fillScreenDMA(volatile u16 color) {
   // TODO: IMPLEMENT
   DMA[3].src = &color;

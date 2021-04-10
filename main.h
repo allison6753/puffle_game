@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include "gba.h"
+#include "setup.h"
 
 // TODO: Create any necessary structs
 

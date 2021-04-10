@@ -15,6 +15,7 @@
 #include "images/start_screen.h"
 #include "images/snow_scene.h"
 #include "images/win_screen.h"
+#include "images/lose_screen.h"
 
 // penguin image
 #include "images/penguin.h"
@@ -42,6 +43,10 @@ enum gba_state {
   LOSE,
 };
 
+struct penguin player;
+struct penguin *playerP = &player;
+struct puffle puffles[9];
+
 
 int main(void) {
   /* TODO: */
@@ -56,33 +61,13 @@ int main(void) {
   enum gba_state state = START;
  
 
-  // initailize penguin
-  struct penguin player;
-  struct penguin *playerP = &player;
-  playerP -> row = 130;
-  playerP -> col = 150;
-  playerP -> width = PENGUIN_WIDTH;
-  playerP -> height = PENGUIN_HEIGHT;
-  playerP -> image = penguin;
-
-  // initialize puffles
-  int initialHorDis[9] = {2, -1, 0, 1, 1, -2, 3, -2, -3};
-  int initialVertDis[9] = {-1, 0, 2, 3, -2, 1, -3, 1, -2};
-  const short unsigned int *images[9] = {pink_puffle, blue_puffle, yellow_puffle, green_puffle, white_puffle, red_puffle, gray_puffle, brown_puffle, purple_puffle};
-  struct puffle puffles[9];
-  for (int i = 0; i < 9; i++) {
-      puffles[i].row = (i * BLUE_PUFFLE_HEIGHT) % HEIGHT;
-      puffles[i].col = (i * BLUE_PUFFLE_WIDTH) % WIDTH;
-      puffles[i].height = BLUE_PUFFLE_HEIGHT;
-      puffles[i].width = BLUE_PUFFLE_WIDTH;
-      puffles[i].vertDis = initialVertDis[i];
-      puffles[i].horDis = initialHorDis[i];
-      puffles[i].show = 1;
-      puffles[i].image = images[i];
-  }
+  setup();
 
   // initialize score
   int score = 0;
+
+  //initialize timer to 20 seconds
+  int timer = 60 * 20;
 
 
   while (1) {
@@ -94,14 +79,23 @@ int main(void) {
 
     // reset game
     if (KEY_JUST_PRESSED(BUTTON_SELECT, currentButtons, previousButtons)) {
+      setup();
+
+      score = 0;
+      timer = 60 * 20;
+
       state = START;
     }
 
     if (score == 9) {
       state = WIN;
     }
+    if (timer <= 0) {
+      state = LOSE;
+    }
 
     waitForVBlank();
+    timer--;
 
     switch (state) {
 
@@ -117,11 +111,6 @@ int main(void) {
       case PLAY:
         // draw penguin
         drawImageDMA(playerP -> row, playerP -> col, playerP -> width, playerP -> height, playerP -> image);
-
-        // draw score
-        char buffer[51];
-        sprintf(buffer, "Score: %d", score);
-        drawString(150, 185, buffer, BLUE);
 
         // undraw old puffles
         for (int i = 0; i < 9; i++) {
@@ -195,6 +184,19 @@ int main(void) {
           }
         }
 
+        // draw score
+        char buffer[51];
+        sprintf(buffer, "Score: %d", score);
+        drawString(150, 185, buffer, BLUE);
+
+        // undraw old timer
+        undrawImageDMA(130, 185, 140, 240, snow_scene);
+
+        // draw timer
+        char timeBuffer[51];
+        sprintf(timeBuffer, "Time Left: %d", timer / 60);
+        drawString(130, 155, timeBuffer, RED);
+
         break;
 
 
@@ -205,8 +207,7 @@ int main(void) {
 
 
       case LOSE:
-
-        // state = ?
+        drawFullScreenImageDMA(lose_screen);
         break;
     }
 

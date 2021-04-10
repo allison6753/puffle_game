@@ -26,3 +26,6 @@ https://clubpenguin.fandom.com/wiki/Login_Screen
 
 win_screen
 http://jenisonajourney.com/2009/06/16/club-penguins-101-days-of-fun-2.html
+
+lose_screen
+https://twitter.com/notmycp

@@ -118,3 +118,4 @@ void drawCenteredString(int row, int col, int width, int height, char *str, u16 
   int new_col = col + ((width - strWidth) >> 1);
   drawString(new_row, new_col, str, color);
 }
+

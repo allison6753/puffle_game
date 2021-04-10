@@ -40,6 +40,9 @@ struct penguin {
     int col;
     int height;
     int width;
+    int vertDis;
+    int horDis;
+    int show;
     const short unsigned int *image;
 };
 

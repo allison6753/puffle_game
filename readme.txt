@@ -4,8 +4,10 @@ This game has a start screen, play screen, and win screen. When in the start
 screen, press enter to continue to the play screen. When in the play screen,
 there are nine puffles gliding around the screen. Use the up, down, left,
 right arrow keys to move the panguin around to capture all the puffles. The score
-label at the bottom right corner keeps track of how many puffles you've captured.
-Once you capture all the puffles, the win screen shows up. At any point in the game,
+label at the bottom right corner keeps track of how many puffles you've captured, and
+the timer label keeps track of the time you have left. If the timer gets to 0 before
+you capture all the puffles, the lose screen shows up. If you capture all the puffles
+before the time runs out, the win screen shows up. At any point in the game,
 you can go back to the start screen by pressing the backspace key.
 
 

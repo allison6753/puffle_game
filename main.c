@@ -45,7 +45,7 @@ int main(void) {
   // Load initial application state
   enum gba_state state = START;
  
-
+  //initial setup of puffles and penguin
   setup();
 
   // initialize score
@@ -81,9 +81,9 @@ int main(void) {
       state = LOSE;
     }
 
-    waitForVBlank();
     timer--;
-
+    waitForVBlank();
+    
     switch (state) {
 
       case START:

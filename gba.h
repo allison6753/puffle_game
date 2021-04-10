@@ -62,7 +62,7 @@ extern volatile unsigned short *videoBuffer;
 // Remember that a button is recently pressed if it wasn't pressed in the last
 // input (oldButtons) but is pressed in the current input. Use the KEY_DOWN
 // macro to check if the button was pressed in the inputs.
-#define KEY_JUST_PRESSED(key, buttons, oldbuttons) (((~(oldbuttons) & (key)) == 0) && (KEY_DOWN(key, buttons)))
+#define KEY_JUST_PRESSED(key, buttons, oldbuttons) ((!KEY_DOWN(key, oldbuttons)) && (KEY_DOWN(key, buttons)))
 
 // ---------------------------------------------------------------------------
 //                       DMA

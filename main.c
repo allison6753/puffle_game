@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 /* TODO: */
-// fix button stuff!
 
 /* TODO: */
 // Include any header files for title screen or exit
@@ -16,20 +15,6 @@
 #include "images/snow_scene.h"
 #include "images/win_screen.h"
 #include "images/lose_screen.h"
-
-// penguin image
-#include "images/penguin.h"
-
-// puffle images
-#include "images/blue_puffle.h"
-#include "images/pink_puffle.h"
-#include "images/green_puffle.h"
-#include "images/brown_puffle.h"
-#include "images/yellow_puffle.h"
-#include "images/gray_puffle.h"
-#include "images/purple_puffle.h"
-#include "images/white_puffle.h"
-#include "images/red_puffle.h"
 
 
 
@@ -90,7 +75,9 @@ int main(void) {
     if (score == 9) {
       state = WIN;
     }
-    if (timer <= 0) {
+
+    //if timer just ran out of time
+    if (timer <= 0 && timer > -200) {
       state = LOSE;
     }
 
@@ -147,42 +134,7 @@ int main(void) {
 
         }
 
-
-        // up button
-        if (KEY_JUST_PRESSED(BUTTON_UP, currentButtons, previousButtons)) {
-          //BUTTONS = BUTTONS & ~BUTTON_UP;
-          if ((playerP -> row) >= 3) {
-            playerP -> row -= 3;
-            undrawImageDMA((playerP -> row) + (playerP -> height), (playerP -> col), (playerP -> row) + (playerP -> height) + 3, (playerP -> col) + (playerP -> width), snow_scene);
-          }
-        }
-
-        // down button
-        if (KEY_JUST_PRESSED(BUTTON_DOWN, currentButtons, previousButtons)) {
-          //BUTTONS = BUTTONS & ~BUTTON_DOWN;
-          if ((playerP -> row) <= HEIGHT - (playerP -> height) - 3) {
-            playerP -> row += 3;
-            undrawImageDMA(playerP -> row - 3, (playerP -> col), (playerP -> row), (playerP -> col) + (playerP -> width), snow_scene);
-          }
-        }
-
-        // left button
-        if (KEY_JUST_PRESSED(BUTTON_LEFT, currentButtons, previousButtons)) {
-          //BUTTONS = BUTTONS & ~BUTTON_LEFT;
-          if ((playerP -> col) >= 3) {
-            playerP -> col -= 3;
-            undrawImageDMA(playerP -> row, (playerP -> col) + (playerP -> width), (playerP -> row) + (playerP -> height), (playerP -> col) + (playerP -> width) + 3, snow_scene);
-          }
-        }
-
-        // right button
-        if (KEY_JUST_PRESSED(BUTTON_RIGHT, currentButtons, previousButtons)) {
-          //BUTTONS = BUTTONS & ~BUTTON_RIGHT;
-          if ((playerP -> col) <= WIDTH - (playerP -> width) - 3) {
-            playerP -> col += 3;
-            undrawImageDMA(playerP -> row, (playerP -> col) - 3, (playerP -> row) + (playerP -> height), (playerP -> col) - 1, snow_scene);
-          }
-        }
+        control(currentButtons, previousButtons);
 
         // draw score
         char buffer[51];
@@ -201,8 +153,8 @@ int main(void) {
 
 
       case WIN:
+        timer = -200;
         drawFullScreenImageDMA(win_screen);
-        // state = ?
         break;
 
 
